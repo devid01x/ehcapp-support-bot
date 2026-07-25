@@ -1,114 +1,202 @@
-const TelegramBot = require("node-telegram-bot-api");
-const express = require("express");
-
-const app = express();
-const bot = new TelegramBot(process.env.BOT_TOKEN, {
-  polling: true,
-});
-
-app.get("/", (req, res) => {
-  res.send("EHC Support Bot is Running!");
-});
-
-bot.on("message", (msg) => {
-  const chatId = msg.chat.id;
-  const text = msg.text;
-
-  if (text === "/start") {
-    bot.sendMessage(
-      chatId,
-      `👋 Welcome to EHC App Support
-
-আপনাকে স্বাগতম।
-
-নিচের একটি অপশন নির্বাচন করুন 👇`,
-      {
-        reply_markup: {
-          keyboard: [
-            ["💰 Deposit", "💸 Withdraw"],
-            ["👤 KYC", "🎁 Bonus"],
-            ["📞 Support"]
-          ],
-          resize_keyboard: true,
-          persistent_keyboard: true
-        }
-      }
-    );
-    return;
-  }
-
-  if (text === "💰 Deposit") {
-    bot.sendMessage(
-      chatId,
-      `💰 Deposit Guide
-
-• Deposit Method: bKash / Nagad
-• Minimum Deposit: 300 BDT
-• Deposit করার পর Transaction ID সাবমিট করুন।`
-    );
-    return;
-  }
-
-  if (text === "💸 Withdraw") {
-    bot.sendMessage(
-      chatId,
-      `💸 Withdrawal Guide
-
-✅ KYC সম্পন্ন না করলে উত্তোলন করা যাবে না।
-
-• Minimum Withdraw: 300 BDT
-• Processing Time: 0-24 Hours`
-    );
-    return;
-  }
-
-  if (text === "👤 KYC") {
-    bot.sendMessage(
-      chatId,
-      `👤 KYC Verification
-
-Profile → KYC এ যান।
-
-তারপর:
-• NID/Passport/Driving License
-• Selfie
-• Submit করুন।`
-    );
-    return;
-  }
-
-  if (text === "🎁 Bonus") {
-    bot.sendMessage(
-      chatId,
-      `🎁 Bonus Information
-
-• New User Bonus
-• Referral Bonus
-• Daily Reward
-
-বিস্তারিত জানতে সাপোর্টে যোগাযোগ করুন।`
-    );
-    return;
-  }
-
-  if (text === "📞 Support") {
-    bot.sendMessage(
-      chatId,
-      `📩 আপনার সমস্যাটি এক মেসেজে লিখে পাঠান।
-
-আমাদের সাপোর্ট টিম যত দ্রুত সম্ভব উত্তর দেবে।`
-    );
-    return;
-  }
-
+if (text === "/start") {
   bot.sendMessage(
     chatId,
-    "❓ দুঃখিত, আমি প্রশ্নটি বুঝতে পারিনি। নিচের মেনু থেকে একটি অপশন নির্বাচন করুন অথবা /start লিখুন।"
+`🏢 *Welcome to EHC App Support*
+
+আপনাকে EHC Support Bot-এ স্বাগতম।
+
+নিচের মেনু থেকে আপনার প্রয়োজনীয় অপশন নির্বাচন করুন।
+
+━━━━━━━━━━━━━━━━━━
+
+📌 উপলব্ধ সেবাসমূহ
+
+💰 Deposit
+💸 Withdraw
+👤 KYC
+🎁 Bonus
+👥 Group
+👨‍💼 Manager
+📞 Support
+
+━━━━━━━━━━━━━━━━━━
+
+ধন্যবাদ EHC App-এর সাথে থাকার জন্য। ❤️`,
+    {
+      parse_mode: "Markdown",
+      reply_markup: {
+        keyboard: [
+          ["💰 Deposit", "💸 Withdraw"],
+          ["👤 KYC", "🎁 Bonus"],
+          ["👥 Group", "👨‍💼 Manager"],
+          ["📞 Support"]
+        ],
+        resize_keyboard: true,
+        persistent_keyboard: true
+      }
+    }
   );
-});
+  return;
+}
 
-const PORT = process.env.PORT || 3000;
+if (text === "💰 Deposit") {
+  bot.sendMessage(
+    chatId,
+`💰 *Deposit Information*
 
-app.listen(PORT, () => {
-  console.log("EHC Support Bot is Running...");
-});
+EHC App-এ যোগ দিতে প্রথমে ডিপোজিট সম্পন্ন করুন।
+
+━━━━━━━━━━━━━━━━━━
+
+💳 গ্রহণযোগ্য মাধ্যম
+• বিকাশ
+• নগদ
+• রকেট
+
+💵 সর্বনিম্ন ডিপোজিট: *১,২০০৳*
+
+📌 নিয়মাবলী
+
+✅ নির্ধারিত পেমেন্ট নম্বরে অর্থ পাঠান।
+✅ Transaction ID সংরক্ষণ করুন।
+✅ EHC App-এর ওয়েবসাইটে লগইন করুন।
+✅ Deposit পেজে Transaction ID সাবমিট করুন।
+✅ যাচাই শেষে আপনার অ্যাকাউন্ট সক্রিয় করা হবে।
+
+⚠️ শুধুমাত্র অফিসিয়াল পেমেন্ট নম্বর ব্যবহার করুন।`,
+    {
+      parse_mode: "Markdown"
+    }
+  );
+  return;
+}
+
+if (text === "💸 Withdraw") {
+  bot.sendMessage(
+    chatId,
+`💸 *Withdrawal Information*
+
+আপনার উত্তোলনের আবেদন নিরাপদ ও দ্রুত প্রক্রিয়াকরণ করা হবে।
+
+━━━━━━━━━━━━━━━━━━
+
+💵 সর্বনিম্ন উত্তোলন: *৫০০৳*
+
+💳 উত্তোলনের মাধ্যম
+• বিকাশ
+• নগদ
+• রকেট
+
+📋 উত্তোলনের নিয়মাবলী
+
+✅ আপনার অ্যাকাউন্টে পর্যাপ্ত ব্যালেন্স থাকতে হবে।
+✅ KYC সম্পন্ন থাকতে হবে।
+✅ EHC App-এর ওয়েবসাইটে লগইন করুন।
+✅ Withdraw পেজে Wallet নম্বর ও পরিমাণ লিখে আবেদন করুন।
+
+⏳ আবেদন অনুমোদনের পর ১–৩ কার্যদিবসের মধ্যে অর্থ পাঠানো হবে।
+
+✅ অধিকাংশ ক্ষেত্রে T+1 (পরবর্তী কার্যদিবস)-এর মধ্যেই উত্তোলন সম্পন্ন হয়।`,
+    {
+      parse_mode: "Markdown"
+    }
+  );
+  return;
+}
+
+if (text === "👤 KYC") {
+  bot.sendMessage(
+    chatId,
+`👤 *KYC Verification*
+
+আপনার অ্যাকাউন্টের নিরাপত্তা ও সেবা নিশ্চিত করার জন্য KYC সম্পন্ন করা বাধ্যতামূলক।
+
+━━━━━━━━━━━━━━━━━━
+
+📋 প্রয়োজনীয় তথ্য
+
+🪪 জাতীয় পরিচয়পত্র (NID)
+অথবা
+📄 পাসপোর্ট / ড্রাইভিং লাইসেন্স
+
+🤳 একটি পরিষ্কার সেলফি
+
+📱 সক্রিয় মোবাইল নম্বর
+
+━━━━━━━━━━━━━━━━━━
+
+✅ EHC App-এর ওয়েবসাইটে লগইন করুন।
+
+✅ KYC পেজে সকল তথ্য সঠিকভাবে পূরণ করুন।
+
+✅ প্রয়োজনীয় ডকুমেন্ট আপলোড করে Submit করুন।
+
+⏳ সাধারণত ১–৩ কার্যদিবসের মধ্যে KYC যাচাই সম্পন্ন হয়।
+
+🔒 আপনার সকল তথ্য সম্পূর্ণ গোপন রাখা হবে এবং শুধুমাত্র পরিচয় যাচাই ও অ্যাকাউন্টের নিরাপত্তার জন্য ব্যবহার করা হবে।`,
+    {
+      parse_mode: "Markdown"
+    }
+  );
+  return;
+}
+
+if (text === "🎁 Bonus") {
+  bot.sendMessage(
+    chatId,
+`🎁 *Bonus Information*
+
+EHC App-এ বিভিন্ন সময়ে বোনাস ও প্রচারণামূলক অফার প্রদান করা হয়।
+
+━━━━━━━━━━━━━━━━━━
+
+🎉 উপলব্ধ সুবিধাসমূহ
+
+✅ নতুন ব্যবহারকারীর অফার
+✅ আমন্ত্রণ (Referral) প্রোগ্রাম
+✅ বিশেষ ক্যাম্পেইন বোনাস
+
+📌 বোনাস গ্রহণের জন্য
+
+• EHC App-এর ওয়েবসাইটে লগইন করুন।
+• Bonus / Invitation পেজে যান।
+• চলমান অফার ও শর্তাবলী পড়ুন।
+• যোগ্য হলে বোনাস আপনার অ্যাকাউন্টে যুক্ত হবে।
+
+⚠️ প্রতিটি বোনাসের জন্য আলাদা শর্ত প্রযোজ্য হতে পারে।`,
+    {
+      parse_mode: "Markdown"
+    }
+  );
+  return;
+}if (text === "👥 Group") {
+  bot.sendMessage(
+    chatId,
+`👥 *Official Private Group*
+
+EHC App-এর অফিসিয়াল প্রাইভেট গ্রুপে যোগ দিতে নিচের নিয়ম অনুসরণ করুন।
+
+━━━━━━━━━━━━━━━━━━
+
+✅ EHC App-এ সফলভাবে রেজিস্ট্রেশন সম্পন্ন করুন।
+
+✅ কমপক্ষে একটি বিনিয়োগ (Investment) প্ল্যান সক্রিয় করুন।
+
+✅ এরপর প্রাইভেট গ্রুপে যোগদানের অনুমতি পাবেন।
+
+📢 গ্রুপে আপনি পাবেন:
+• গুরুত্বপূর্ণ ঘোষণা
+• নতুন আপডেট
+• অফার ও ক্যাম্পেইনের খবর
+• কমিউনিটি সাপোর্ট
+
+🔗 Group Link:
+https://t.me/your_group_link
+
+ধন্যবাদ ❤️`,
+    {
+      parse_mode: "Markdown"
+    }
+  );
+  return;
+}
